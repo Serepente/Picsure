@@ -1,5 +1,7 @@
 <?php
 session_start();
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
 
 function generateUniqueFileName($originalFileName)
 {
@@ -19,7 +21,7 @@ if (!is_dir($uploadDirectory)) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] == 0) {
         $targetFile = $uploadDirectory . generateUniqueFileName($_FILES['fileToUpload']['name']);
 
-    echo $targetFile;
+    $targetFile;
        
     if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $targetFile)) {
         $_SESSION['uploadedFilePath'] = $targetFile; 

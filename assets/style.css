@@ -69,6 +69,20 @@ body {
     width: 100px;
     height: auto; 
 }
+
+.homeBtn{
+    border: 2px solid #ffffff !important;
+    background-color: transparent; 
+    border-radius: 20px; 
+    color: #ffffff !important; 
+    padding: 10px 20px; 
+}
+
+.homeBtn:hover {
+  background-color: #00264f; /* Change background color on hover, adjust color as needed */
+  color: #fff; /* Change text color on hover, adjust to match your design */
+}
+
 .upload-files{
     position: absolute;
     bottom: 0;
@@ -158,7 +172,7 @@ body {
 /* slider */
 
 .slider-container {
-  width: 50%;
+  width: 70%;
   margin: 10px auto;
 } 
 .color-slider-container{
@@ -444,6 +458,62 @@ body {
   border-radius: 50%;
 }
 
+#brightnessRange {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, #ffffff, #0dffef);
+  outline: none;
+  border-radius: 5px;
+  border: none;
+}
+
+#brightnessRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#brightnessRange::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#rotateRange {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, #ffffff, #0dffef);
+  outline: none;
+  border-radius: 5px;
+  border: none;
+}
+
+#rotateRange::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+#rotateRange::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
 .reset-btn{
   background: none;
   border: none;
@@ -519,4 +589,71 @@ body {
 
 .bright-container{
   padding-top: 20px !important;
+}
+.image-hover-container:hover .hover-text {
+  display: block !important;
+}
+.info-accordion {
+  width: 60% !important; /* Adjust based on your preference */
+  font-size: 0.9em !important; /* Smaller text */
+  margin: auto !important; /* Centers the accordion */
+  /* background-color: #f80000 !important; */
+  color: #FFFFFF !important;
+  border-radius: 5px !important; /* Optional: adds rounded corners */
+  padding: 10px !important; /* Optional: adds some padding inside the accordion for better aesthetics */
+}
+.accordion-button{
+  background-color: #001021 !important;
+  color: #FFFFFF !important;
+}
+.collapsed{
+  color: #FFFFFF;
+}
+.accordion-body{
+  background-color: #001021 !important;
+  /* border-radius: 5pxpx !important; */
+}
+.quadrilateral{
+  font-size: 90%;
+}
+.sizes{
+  font-size: 90%;
+}
+.rotate-item:hover{
+  cursor: pointer;
+}
+.hidden {
+  display: none;
+}
+
+.rotate-btn{
+  background-color: #00264f !important;
+  color: #ffff;
+  border: none;
+}
+.rot-btn{
+  font-size: 95%;
+
+}
+
+.context-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 5px 0;
+  z-index: 100;
+  display: none;
+}
+.context-menu ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.context-menu li {
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+.convolution img:hover{
+  cursor: pointer;
 }

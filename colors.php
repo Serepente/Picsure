@@ -9,8 +9,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $warmthRange = $_POST['warmthRange'];
         $brightnessRange = $_POST['brightnessRange'];  
         $blurRange = $_POST['blurRange'];
+        $thresholdingRange = $_POST['thresholdingRange'];
         $targetFile = $_POST['targetFile'];
-
+        
         $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
         if ($imageFileType == "jpg" || $imageFileType == "jpeg") {
@@ -74,6 +75,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $divisor = 1;
             $offset = 0;
             imageconvolution($image, $sharpenMatrix, $divisor, $offset);
+        }
+
+        if($thresholdingRange){
+
+            imagefilter($image, IMG_FILTER_GRAYSCALE);
+
+            for ($y = 0; $y < imagesy($image); $y++) {
+                for ($x = 0; $x < imagesx($image); $x++) {
+                    $rgb = imagecolorat($image, $x, $y);
+                    $colors = imagecolorsforindex($image, $rgb);
+                    $brightness = ($colors['red'] + $colors['green'] + $colors['blue']) / 3;
+                    $newColor = $brightness < $thresholdingRange ? 0x000000 : 0xFFFFFF;
+                    imagesetpixel($image, $x, $y, $newColor);
+                }
+            } 
         }
 
     

@@ -12,6 +12,7 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
     $thumbnails = generateThumbnails($targetFile);
 }
 // $savepath = $_SESSION['savepath'];
+// echo $targetFile;
 ?>
 
 
@@ -45,14 +46,14 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
                 <div class="row">
                     <div class="col-1 p-0">
                         <div class="list-group" id="list-tab" role="tablist">
-                                <a class="list-group-item list-group-item-action active p-4 text-center" id="list-import-list" data-bs-toggle="list" href="#list-import" role="tab" aria-controls="list-import"><i class="fa-solid fa-file-import fa-lg" style="color: #fafafa;"></i></i>
-                                <span class="hover-text">Import image</span>
+                                <a class="list-group-item list-group-item-action active p-4 text-center" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home"><i class="fa-solid fa-house fa-lg" style="color: #ffffff;"></i>
+                                <span class="hover-text">Home</span>
                                 </a>
-                                <a class="list-group-item list-group-item-action p-4 text-center" id="list-brightness-list" data-bs-toggle="list" href="#list-brightness" role="tab" aria-controls="list-brightness">
-                                <i class="fa-solid fa-sun fa-lg" style="color: #ffffff;"></i>
-                                <span class="hover-text">Brightness</span>
+                                <a class="list-group-item list-group-item-action p-4 text-center" id="list-import-list" data-bs-toggle="list" href="#list-import" role="tab" aria-controls="list-import">
+                                <i class="fa-solid fa-file-import fa-lg" style="color: #ffffff;"></i>
+                                <span class="hover-text">Import Image</span>
                                 </a>
-                                <a class="list-group-item list-group-item-action p-4 text-center" id="list-grayscale-list" data-bs-toggle="list" href="#list-grayscale" role="tab" aria-controls="list-grayscale"><i class="fa-solid fa-circle-half-stroke fa-lg" style="color: #f7f9fd;"></i>
+                                <a class="list-group-item list-group-item-action p-4 text-center" id="list-edit-list" data-bs-toggle="list" href="#list-edit" role="tab" aria-controls="list-edit"><i class="fa-solid fa-circle-half-stroke fa-lg" style="color: #f7f9fd;"></i>
                                 <span class="hover-text">Grayscale</span>
                                 </a>
                                 <a class="list-group-item list-group-item-action p-4 text-center" id="list-bnw-list" data-bs-toggle="list" href="#list-bnw" role="tab" aria-controls="list-bnw"><i class="fa-solid fa-droplet fa-lg" style="color: #fcfcfd;"></i>
@@ -75,14 +76,32 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
                     </div>
                     <div class="col-11">
                       <div class="tab-content h-100" id="nav-tabContent" style="position: relative;">
-                            <img src="assets/img/logo.png" alt="" class="top-left-logo">
-                            <form action="reset.php" method="POST">
+                            <img src="assets/img/logo.png" alt="" class="top-left-logo" id="topLeftLogo" style="display: none;">
+                            <form action="reset.php" id="resetForm" method="POST" style="display: none;">
                                 <button type="submit" name="reset" class="position-absolute bottom-0 end-0" style="background-color: transparent; border: none;">
                                     <i class="fa-solid fa-trash fa-lg" style="color: #ffffff;"></i>
                                 </button> 
                             </form>
-                            <div class="tab-pane fade show active h-100" id="list-import" role="tabpanel" aria-labelledby="list-import-list">
-                                <div class="container h-100 d-flex justify-content-center align-items-center flex-column"> 
+
+                            <div class="tab-pane fade show active h-100" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                                <div class="container h-100 d-flex justify-content-center align-items-center flex-column">
+                                    <div class="text-center"> <!-- Added a wrapping div with text-center class for alignment -->
+                                        <h1 class="text-white">
+                                            WELCOME TO PICSURE
+                                        </h1>
+                                        <span class="text-white">Online Image Processing Project</span>
+                                        <!-- Buttons added below -->
+                                        <div class="mt-5"> <!-- This div is used to wrap buttons and provide margin-top for spacing -->
+                                            <button type="button" class="btn homeBtn mx-3" id="editImagesBtn">Edit Images</button>
+                                            <a href="features" class="btn homeBtn mx-3" role="button">Explore More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                                           
+                            <div class="tab-pane fade show h-100" id="list-import" role="tabpanel" aria-labelledby="list-import-list" id="list-import-list">
+                            <div class="container h-100 d-flex justify-content-center align-items-center flex-column"> 
                                     <div class="upload-border d-flex flex-column justify-content-center align-items-center">
                                         <input type="file" id="fileInput" style="display: none;" accept="image/*"/>
                                         <div id="uploadContainer" onclick="document.getElementById('fileInput').click();">
@@ -99,25 +118,7 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
                                     </button>
                                 </div>
                             </div>
-                                           
-                            <div class="tab-pane fade show h-100" id="list-brightness" role="tabpanel" aria-labelledby="list-brightness-list">
-                                <h3 class="position-absolute top-0 start-0 mt-3 ms-3 text-white">Adjust Brightness</h3>
-                                <div class="h-100 d-flex flex-column justify-content-center align-items-center">
-                                <?php if (!empty($targetFile)): ?>
-                                    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 350px;width: 700px;">
-                                        <img src="<?php echo htmlspecialchars($targetFile, ENT_QUOTES, 'UTF-8'); ?>" alt="" class="imageEdit" id="mainImage">
-                                    </div>
-                                    <div class="slider-container">
-                                        <input type="range" min="0" max="100" value="0" class="range-slider" id="brightnessRange">
-                                        <div class="value-box" id="brightnessValue">0%</div>
-                                    </div>
-
-                                    <?php else: ?>
-                                        <p class="text-white">Please upload an image to use the brightness.</p>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade h-100" id="list-grayscale" role="tabpanel" aria-labelledby="list-grayscale-list">
+                            <div class="tab-pane fade h-100" id="list-edit" role="tabpanel" aria-labelledby="list-edit-list">
                                 <h3 class="position-absolute top-0 start-0 mt-3 ms-3 text-white">Grayscaled Image</h3>
                                 <div class="h-100 d-flex flex-column justify-content-center align-items-center">
                                     <?php if (!empty($targetFile)): ?>
@@ -133,15 +134,7 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
                                 <h3 class="position-absolute top-0 start-0 mt-3 ms-3 text-white">Black and White Image</h3>
                                 <div class="h-100 d-flex flex-column justify-content-center align-items-center">
                                     <?php if (!empty($targetFile)): ?>
-                                        <div class="d-flex flex-column justify-content-center align-items-center image-container" style="height: 350px;width: 700px;">
-                                            <img id="thresholdedImage" src="<?php echo htmlspecialchars($targetFile); ?>" alt="" class="imageEdit">
-                                        </div>
-                                        <div class="thresholding-slider-container mt-3">
-                                            <!-- Thresholding Slider -->
-                                            <label for="thresholdingRange" class="form-label text-white">Thresholding</label>
-                                            <button class="reset-btn" data-for="thresholdingRange"><i class="fa-solid fa-rotate-left" style="color: #ffffff;"></i></button>
-                                            <input type="range" id="thresholdingRange" min="0" max="255" value="127" class="mb-4">
-                                        </div>
+                                        
                                     <?php else: ?>
                                         <p class="text-white">Please upload an image to use the black and white.</p>
                                     <?php endif; ?>
@@ -212,7 +205,7 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
                                             <img id="mainImage3" src="<?php echo htmlspecialchars($targetFile); ?>" alt="" class="imageEdit">
                                             </div>
                                             <div class="slider-container mt-3 row">
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <label for="warmthRange" class="form-label text-white">Warmth</label>
                                                         <button class="reset-btn" data-for="warmthRange"><i class="fa-solid fa-rotate-left" style="color: #ffffff;"></i></button>
                                                         <input type="range" id="warmthRange" min="-100" max="100" value="0" class="mb-4">
@@ -220,13 +213,22 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
                                                         <button class="reset-btn" data-for="contrastRange"><i class="fa-solid fa-rotate-left" style="color: #ffffff;"></i></button>
                                                         <input type="range" id="contrastRange" min="-100" max="100" value="0" class="mb-4">
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col-md-4">
                                                         <label for="blurRange" class="form-label text-white">Blur</label>
                                                         <button class="reset-btn" data-for="blurRange"><i class="fa-solid fa-rotate-left" style="color: #ffffff;"></i></button>
                                                         <input type="range" id="blurRange" min="0" max="30" value="0" class="mb-4">
                                                         <label for="sharpRange" class="form-label text-white">Sharpness</label>
                                                         <button class="reset-btn" data-for="sharpRange"><i class="fa-solid fa-rotate-left" style="color: #ffffff;"></i></button>
                                                         <input type="range" id="sharpRange" min="0" max="5" value="0" class="mb-4">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="brightnessRange" class="form-label text-white">Brigthness</label>
+                                                        <button class="reset-btn" data-for="brightnessRange"><i class="fa-solid fa-rotate-left" style="color: #ffffff;"></i></button>
+                                                        <input type="range" id="brightnessRange" min="0" max="100" value="0" class="mb-4">
+                                                        
+                                                        <label for="thresholdingRange" class="form-label text-white">Thresholding</label>
+                                                        <button class="reset-btn" data-for="thresholdingRange"><i class="fa-solid fa-rotate-left" style="color: #ffffff;"></i></button>
+                                                        <input type="range" id="thresholdingRange" min="-127" max="127" value="0" class="mb-4">
                                                     </div>
                                                 </div>
                                             <?php else: ?>
@@ -346,6 +348,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('sharpRange').addEventListener('input', applyColorAdjustments);
     document.getElementById('brightnessRange').addEventListener('input', applyColorAdjustments);
     document.getElementById('blurRange').addEventListener('input', applyColorAdjustments);
+    document.getElementById('thresholdingRange').addEventListener('input', applyColorAdjustments);
     const rangeIds = ['redRange', 'greenRange', 'blueRange', 'brightnessRange'];
     const rgbValueInput = document.getElementById('rgbValue');
 
@@ -359,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var sharpRange = document.getElementById('sharpRange').value;
         var brightnessRange = document.getElementById('brightnessRange').value;
         var blurRange = document.getElementById('blurRange').value;
+        var thresholdingRange = document.getElementById('thresholdingRange').value;
         var targetFile = '<?php echo $targetFile; ?>';
         var color = 'RGB('+ redRange +','+ greenRange +','+ blueRange +')';
         console.log(color);
@@ -371,7 +375,7 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.onload = function() {
             if (this.status == 200) {
                 console.log(this.responseText);
-                document.getElementById('mainImage').src = 'assets/img/color_adjusted/' + this.responseText + '?t=' + new Date().getTime();
+                // document.getElementById('mainImage').src = 'assets/img/color_adjusted/' + this.responseText + '?t=' + new Date().getTime();
                 document.getElementById('mainImage2').src = 'assets/img/color_adjusted/' + this.responseText + '?t=' + new Date().getTime();
                 document.getElementById('mainImage3').src = 'assets/img/color_adjusted/' + this.responseText + '?t=' + new Date().getTime();
                 document.getElementById('mainImage4').src = 'assets/img/color_adjusted/' + this.responseText + '?t=' + new Date().getTime();
@@ -380,36 +384,35 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        // xhr.send(`redRange=${redRange}&greenRange=${greenRange}&blueRange=${blueRange}&opacityRange=${opacityRange}&saturationRange=${saturationRange}&brightnessRange=${brightnessRange}&blurRange=${blurRange}&targetFile=${targetFile}`);
-        xhr.send(`brightnessRange=${brightnessRange}&redRange=${redRange}&greenRange=${greenRange}&blueRange=${blueRange}&targetFile=${targetFile}&blurRange=${blurRange}&contrastRange=${contrastRange}&sharpRange=${sharpRange}&warmthRange=${warmthRange}`);
+        xhr.send(`brightnessRange=${brightnessRange}&redRange=${redRange}&greenRange=${greenRange}&blueRange=${blueRange}&targetFile=${targetFile}&blurRange=${blurRange}&contrastRange=${contrastRange}&sharpRange=${sharpRange}&warmthRange=${warmthRange}&thresholdingRange=${thresholdingRange}`);
     }
 });
 
     //Thresholding
-document.addEventListener('DOMContentLoaded', function() {
+// document.addEventListener('DOMContentLoaded', function() {
 
-    document.getElementById('thresholdingRange').addEventListener('input', applyThresholdingAdjutments);
+//     document.getElementById('thresholdingRange').addEventListener('input', applyThresholdingAdjutments);
     
 
 
 
-    function applyThresholdingAdjutments() {
-        var thresholdingRange = document.getElementById('thresholdingRange').value;
-        var targetFile = '<?php echo $targetFile; ?>';
+//     function applyThresholdingAdjutments() {
+//         var thresholdingRange = document.getElementById('thresholdingRange').value;
+//         var targetFile = '';
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'thresholding.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//         var xhr = new XMLHttpRequest();
+//         xhr.open('POST', 'thresholding.php', true);
+//         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-        xhr.onload = function() {
-            if (this.status == 200) {
-                console.log(this.responseText);
-                document.getElementById('thresholdedImage').src = 'assets/img/thresholded/' + this.responseText + '?t=' + new Date().getTime();
-            }
-        };
-        xhr.send(`thresholdingRange=${thresholdingRange}&targetFile=${targetFile}`);
-    }
-});
+//         xhr.onload = function() {
+//             if (this.status == 200) {
+//                 console.log(this.responseText);
+//                 document.getElementById('thresholdedImage').src = 'assets/img/thresholded/' + this.responseText + '?t=' + new Date().getTime();
+//             }
+//         };
+//         xhr.send(`thresholdingRange=${thresholdingRange}&targetFile=${targetFile}`);
+//     }
+// });
 </script>
 
 </body>

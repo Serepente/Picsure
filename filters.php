@@ -3,7 +3,7 @@
 if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFilePath'])) {
     $filePath = $_SESSION['uploadedFilePath'];
     $info = getimagesize($filePath);
-
+    
     // Natural
     function applyNaturalFilter($image, $filePath) {
 
@@ -90,6 +90,15 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
 
         return $editedImageNegative;
     }
+    // Grayscale
+    function applyGrayscaleFilter($image, $filePath) {
+        
+        imagefilter($image, IMG_FILTER_GRAYSCALE);
+        $editedImageGrayscale = "assets/img/grayscaled/grayed_" . basename($filePath);
+        imagejpeg($image, $editedImageGrayscale);
+
+        return $editedImageGrayscale;
+    }
     // Noir
     function applyNoirFilter($image, $filePath) {
         
@@ -149,7 +158,7 @@ if (isset($_SESSION['uploadedFilePath']) && file_exists($_SESSION['uploadedFileP
     }
 
     function generateThumbnails($filePath) {
-        $filters = ['Natural', 'Fresh', 'Brightness', 'Contrast', 'Sepia', 'Sunglow', 'Warm', 'Cool', 'Autumn', 'Negative', 'Noir', 'Draw', 'Charcoal', 'BNW'];
+        $filters = ['Natural', 'Fresh', 'Brightness', 'Contrast', 'Sepia', 'Sunglow', 'Warm', 'Cool', 'Autumn', 'Negative', 'Grayscale', 'Noir', 'Draw', 'Charcoal', 'BNW'];
         $thumbnails = [];
 
         foreach ($filters as $filter) {
